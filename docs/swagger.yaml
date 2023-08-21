@@ -1,0 +1,17 @@
+basePath: /
+host: gw.verifire.com/recaptcha
+info:
+  contact:
+    name: Artem Kostenko
+    url: https://github.com/aerosystems
+  description: A part of microservice infrastructure, who responsible for reCAPTCHA
+    v2/v3 validation
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  title: reCAPTCHA Service
+  version: 1.0.0
+paths: {}
+schemes:
+- https
+swagger: "2.0"
