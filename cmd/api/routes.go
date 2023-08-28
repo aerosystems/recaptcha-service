@@ -16,6 +16,7 @@ func (app *Config) NewRouter() *echo.Echo {
 
 	e.GET("/ping", app.BaseHandler.Ping)
 	e.GET("/v1/validate", app.BaseHandler.Validate)
+	e.GET("/v1/validate/v3", app.BaseHandler.ValidateV3)
 
 	return e
 }

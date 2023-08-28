@@ -1,4 +1,19 @@
 basePath: /
+definitions:
+  handlers.ErrResponse:
+    properties:
+      code:
+        type: integer
+      data: {}
+      message:
+        type: string
+    type: object
+  handlers.Response:
+    properties:
+      data: {}
+      message:
+        type: string
+    type: object
 host: gw.verifire.com/recaptcha
 info:
   contact:
@@ -11,7 +26,60 @@ info:
     url: https://www.apache.org/licenses/LICENSE-2.0.html
   title: reCAPTCHA Service
   version: 1.0.0
-paths: {}
+paths:
+  /v1/validate:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: reCAPTCHA v3 token
+        in: header
+        name: X-Recaptcha-V3-Token
+        required: true
+        type: string
+      - description: reCAPTCHA v2 token
+        in: header
+        name: X-Recaptcha-V2-Token
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            $ref: '#/definitions/handlers.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/handlers.ErrResponse'
+      summary: validate reCAPTCHA v3 token
+      tags:
+      - api-gateway-special
+  /v1/validate/v3:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: reCAPTCHA v3 token
+        in: header
+        name: X-Recaptcha-V3-Token
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            $ref: '#/definitions/handlers.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/handlers.ErrResponse'
+      summary: validate reCAPTCHA v3 token
+      tags:
+      - api-gateway-special
 schemes:
 - https
 swagger: "2.0"
