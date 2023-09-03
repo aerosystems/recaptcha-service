@@ -31,6 +31,8 @@ func (h *BaseHandler) Validate(c echo.Context) error {
 func (h *BaseHandler) ValidateV3(c echo.Context) error {
 	headers := c.Request().Header
 	if err := h.recaptchaService.VerifyV3(headers.Get("X-Recaptcha-V3-Token"), c.RealIP()); err != nil {
+		h.log.Info(headers.Get("X-Recaptcha-V3-Token"))
+		h.log.WithError(err).Error("reCAPTCHA v3 token is not valid")
 		return ErrorResponse(c, http.StatusUnauthorized, "reCAPTCHA v3 token is not valid", err)
 	}
 

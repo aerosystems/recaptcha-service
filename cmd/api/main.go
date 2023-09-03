@@ -8,7 +8,6 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/sirupsen/logrus"
-	"net/http"
 	"os"
 )
 
@@ -30,19 +29,13 @@ const webPort = 80
 func main() {
 	log := logger.NewLogger(os.Getenv("HOSTNAME"))
 
-	recaptchaService := captcha.NewRecaptchaService(os.Getenv("RECAPTCHA_SECRET_KEY_V2"), os.Getenv("RECAPTCHA_SECRET_KEY_V3"))
+	recaptchaService := captcha.NewRecaptchaService(os.Getenv("RECAPTCHA_V2_SECRET"), os.Getenv("RECAPTCHA_V3_SECRET"))
 
 	app := Config{
 		BaseHandler: handlers.NewBaseHandler(log.Logger, recaptchaService),
 	}
 
 	e := app.NewRouter()
-
-	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
-		Skipper:      middleware.DefaultSkipper,
-		AllowOrigins: []string{"*"},
-		AllowMethods: []string{http.MethodGet, http.MethodHead, http.MethodPut, http.MethodPatch, http.MethodPost, http.MethodDelete, http.MethodOptions},
-	}))
 
 	e.Use(middleware.RequestLoggerWithConfig(middleware.RequestLoggerConfig{
 		LogURI:    true,
