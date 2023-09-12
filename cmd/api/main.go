@@ -45,7 +45,6 @@ func main() {
 				"URI":    values.URI,
 				"status": values.Status,
 			}).Info("request")
-
 			return nil
 		},
 	}))
