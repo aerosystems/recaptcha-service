@@ -23,7 +23,7 @@ const webPort = 80
 // @license.name Apache 2.0
 // @license.url https://www.apache.org/licenses/LICENSE-2.0.html
 
-// @host gw.verifire.com/recaptcha
+// @host gw.verifire.app/recaptcha
 // @schemes https
 // @BasePath /
 func main() {
