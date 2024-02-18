@@ -1,6 +1,6 @@
 module github.com/aerosystems/recaptcha-service
 
-go 1.19
+go 1.22
 
 require (
 	github.com/KyleBanks/depth v1.2.1 // indirect
