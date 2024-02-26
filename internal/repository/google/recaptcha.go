@@ -1,4 +1,4 @@
-package captcha
+package google
 
 import (
 	"encoding/json"
@@ -7,10 +7,10 @@ import (
 	"time"
 )
 
-type RecaptchaService struct {
-	SecretKeyV2 string
-	SecretKeyV3 string
-}
+const (
+	siteVerifyURL = "https://www.google.com/recaptcha/api/siteverify"
+	score         = 0.5
+)
 
 type SiteVerifyResponse struct {
 	Success     bool      `json:"success"`
@@ -21,25 +21,11 @@ type SiteVerifyResponse struct {
 	ErrorCodes  []string  `json:"error-codes"`
 }
 
-func NewRecaptchaService(
-	secretKeyV2 string,
-	secretKeyV3 string,
-) *RecaptchaService {
-	return &RecaptchaService{
-		SecretKeyV2: secretKeyV2,
-		SecretKeyV3: secretKeyV3,
-	}
-}
-func (rs *RecaptchaService) VerifyV3(response, remoteIP string) error {
-	return checkRecaptcha(rs.SecretKeyV3, response, remoteIP)
+func (a *Api) ValidateV3(response, ip string) error {
+	return validate(a.recaptchaV3SecretKey, response, ip)
 }
 
-func (rs *RecaptchaService) VerifyV2(response, remoteIP string) error {
-	return checkRecaptcha(rs.SecretKeyV2, response, remoteIP)
-}
-
-func checkRecaptcha(secretKey, response, remoteIP string) error {
-	const siteVerifyURL = "https://www.google.com/recaptcha/api/siteverify"
+func validate(secretKey, response, ip string) error {
 	req, err := http.NewRequest(http.MethodPost, siteVerifyURL, nil)
 	if err != nil {
 		return err
@@ -48,7 +34,7 @@ func checkRecaptcha(secretKey, response, remoteIP string) error {
 	q := req.URL.Query()
 	q.Add("secret", secretKey)
 	q.Add("response", response)
-	q.Add("remoteip", remoteIP)
+	q.Add("remoteip", ip)
 	req.URL.RawQuery = q.Encode()
 
 	resp, err := http.DefaultClient.Do(req)
@@ -70,7 +56,7 @@ func checkRecaptcha(secretKey, response, remoteIP string) error {
 		return errors.New("mismatched recaptcha action")
 	}
 
-	if body.Score < 0.5 {
+	if body.Score < score {
 		return errors.New("lower received score than expected")
 	}
 
