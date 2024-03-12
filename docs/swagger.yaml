@@ -1,20 +1,20 @@
 basePath: /
 definitions:
-  handlers.ErrResponse:
+  rest.ErrorResponse:
     properties:
       code:
         type: integer
-      data: {}
+      error: {}
       message:
         type: string
     type: object
-  handlers.Response:
+  rest.Response:
     properties:
       data: {}
       message:
         type: string
     type: object
-host: gw.verifire.com/recaptcha
+host: gw.verifire.dev/recaptcha
 info:
   contact:
     name: Artem Kostenko
@@ -32,11 +32,35 @@ paths:
       consumes:
       - application/json
       parameters:
+      - description: reCAPTCHA v2 token
+        in: header
+        name: X-Recaptcha-V2-Token
+        required: true
+        type: string
       - description: reCAPTCHA v3 token
         in: header
         name: X-Recaptcha-V3-Token
         required: true
         type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            $ref: '#/definitions/rest.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/rest.ErrorResponse'
+      summary: validate reCAPTCHA v2 token & v3 token
+      tags:
+      - api-gateway-special
+  /v2/validate:
+    get:
+      consumes:
+      - application/json
+      parameters:
       - description: reCAPTCHA v2 token
         in: header
         name: X-Recaptcha-V2-Token
@@ -48,15 +72,15 @@ paths:
         "204":
           description: No Content
           schema:
-            $ref: '#/definitions/handlers.Response'
+            $ref: '#/definitions/rest.Response'
         "401":
           description: Unauthorized
           schema:
-            $ref: '#/definitions/handlers.ErrResponse'
-      summary: validate reCAPTCHA v3 token
+            $ref: '#/definitions/rest.ErrorResponse'
+      summary: validate reCAPTCHA v2 token
       tags:
       - api-gateway-special
-  /v1/validate/v3:
+  /v3/validate:
     get:
       consumes:
       - application/json
@@ -72,11 +96,11 @@ paths:
         "204":
           description: No Content
           schema:
-            $ref: '#/definitions/handlers.Response'
+            $ref: '#/definitions/rest.Response'
         "401":
           description: Unauthorized
           schema:
-            $ref: '#/definitions/handlers.ErrResponse'
+            $ref: '#/definitions/rest.ErrorResponse'
       summary: validate reCAPTCHA v3 token
       tags:
       - api-gateway-special

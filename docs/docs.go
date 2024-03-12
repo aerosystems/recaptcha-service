@@ -33,15 +33,52 @@ const docTemplate = `{
                 "tags": [
                     "api-gateway-special"
                 ],
-                "summary": "validate reCAPTCHA v3 token",
+                "summary": "validate reCAPTCHA v2 token \u0026 v3 token",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "reCAPTCHA v2 token",
+                        "name": "X-Recaptcha-V2-Token",
+                        "in": "header",
+                        "required": true
+                    },
                     {
                         "type": "string",
                         "description": "reCAPTCHA v3 token",
                         "name": "X-Recaptcha-V3-Token",
                         "in": "header",
                         "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content",
+                        "schema": {
+                            "$ref": "#/definitions/rest.Response"
+                        }
                     },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/rest.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/v2/validate": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "api-gateway-special"
+                ],
+                "summary": "validate reCAPTCHA v2 token",
+                "parameters": [
                     {
                         "type": "string",
                         "description": "reCAPTCHA v2 token",
@@ -54,19 +91,19 @@ const docTemplate = `{
                     "204": {
                         "description": "No Content",
                         "schema": {
-                            "$ref": "#/definitions/handlers.Response"
+                            "$ref": "#/definitions/rest.Response"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/handlers.ErrResponse"
+                            "$ref": "#/definitions/rest.ErrorResponse"
                         }
                     }
                 }
             }
         },
-        "/v1/validate/v3": {
+        "/v3/validate": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -91,13 +128,13 @@ const docTemplate = `{
                     "204": {
                         "description": "No Content",
                         "schema": {
-                            "$ref": "#/definitions/handlers.Response"
+                            "$ref": "#/definitions/rest.Response"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/handlers.ErrResponse"
+                            "$ref": "#/definitions/rest.ErrorResponse"
                         }
                     }
                 }
@@ -105,19 +142,19 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "handlers.ErrResponse": {
+        "rest.ErrorResponse": {
             "type": "object",
             "properties": {
                 "code": {
                     "type": "integer"
                 },
-                "data": {},
+                "error": {},
                 "message": {
                     "type": "string"
                 }
             }
         },
-        "handlers.Response": {
+        "rest.Response": {
             "type": "object",
             "properties": {
                 "data": {},
