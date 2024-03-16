@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/aerosystems/recaptcha-service/internal/config"
-	HttpServer "github.com/aerosystems/recaptcha-service/internal/http"
+	HttpServer "github.com/aerosystems/recaptcha-service/internal/infrastructure/http"
 	"github.com/sirupsen/logrus"
 )
 

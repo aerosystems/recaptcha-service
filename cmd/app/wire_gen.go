@@ -8,8 +8,8 @@ package main
 
 import (
 	"github.com/aerosystems/recaptcha-service/internal/config"
-	"github.com/aerosystems/recaptcha-service/internal/http"
-	"github.com/aerosystems/recaptcha-service/internal/infrastructure/rest"
+	"github.com/aerosystems/recaptcha-service/internal/infrastructure/http"
+	"github.com/aerosystems/recaptcha-service/internal/infrastructure/http/handlers"
 	"github.com/aerosystems/recaptcha-service/internal/repository/google"
 	"github.com/aerosystems/recaptcha-service/internal/usecases"
 	"github.com/aerosystems/recaptcha-service/pkg/logger"
@@ -47,7 +47,7 @@ func ProvideConfig() *config.Config {
 	return configConfig
 }
 
-func ProvideHttpServer(log *logrus.Logger, validateHandler *rest.ValidateHandler) *HttpServer.Server {
+func ProvideHttpServer(log *logrus.Logger, validateHandler *handlers.ValidateHandler) *HttpServer.Server {
 	server := HttpServer.NewServer(log, validateHandler)
 	return server
 }
@@ -63,12 +63,12 @@ func ProvideLogrusLogger(log *logger.Logger) *logrus.Logger {
 	return log.Logger
 }
 
-func ProvideBaseHandler(log *logrus.Logger, cfg *config.Config) *rest.BaseHandler {
-	return rest.NewBaseHandler(log, cfg.Mode)
+func ProvideBaseHandler(log *logrus.Logger, cfg *config.Config) *handlers.BaseHandler {
+	return handlers.NewBaseHandler(log, cfg.Mode)
 }
 
-func ProvideValidateHandler(baseHandler *rest.BaseHandler, recaptchaUsecase rest.RecaptchaUsecase) *rest.ValidateHandler {
-	return rest.NewValidateHandler(baseHandler, recaptchaUsecase)
+func ProvideValidateHandler(baseHandler *handlers.BaseHandler, recaptchaUsecase handlers.RecaptchaUsecase) *handlers.ValidateHandler {
+	return handlers.NewValidateHandler(baseHandler, recaptchaUsecase)
 }
 
 func ProvideRecaptchaApi(cfg *config.Config) *google.Api {
