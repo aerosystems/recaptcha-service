@@ -1,6 +1,6 @@
 basePath: /
 definitions:
-  rest.ErrorResponse:
+  handlers.ErrorResponse:
     properties:
       code:
         type: integer
@@ -8,7 +8,7 @@ definitions:
       message:
         type: string
     type: object
-  rest.Response:
+  handlers.Response:
     properties:
       data: {}
       message:
@@ -48,11 +48,11 @@ paths:
         "204":
           description: No Content
           schema:
-            $ref: '#/definitions/rest.Response'
+            $ref: '#/definitions/handlers.Response'
         "401":
           description: Unauthorized
           schema:
-            $ref: '#/definitions/rest.ErrorResponse'
+            $ref: '#/definitions/handlers.ErrorResponse'
       summary: validate reCAPTCHA v2 token & v3 token
       tags:
       - api-gateway-special
@@ -72,11 +72,11 @@ paths:
         "204":
           description: No Content
           schema:
-            $ref: '#/definitions/rest.Response'
+            $ref: '#/definitions/handlers.Response'
         "401":
           description: Unauthorized
           schema:
-            $ref: '#/definitions/rest.ErrorResponse'
+            $ref: '#/definitions/handlers.ErrorResponse'
       summary: validate reCAPTCHA v2 token
       tags:
       - api-gateway-special
@@ -96,11 +96,11 @@ paths:
         "204":
           description: No Content
           schema:
-            $ref: '#/definitions/rest.Response'
+            $ref: '#/definitions/handlers.Response'
         "401":
           description: Unauthorized
           schema:
-            $ref: '#/definitions/rest.ErrorResponse'
+            $ref: '#/definitions/handlers.ErrorResponse'
       summary: validate reCAPTCHA v3 token
       tags:
       - api-gateway-special
