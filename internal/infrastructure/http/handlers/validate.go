@@ -27,7 +27,7 @@ func NewValidateHandler(
 // @Produce application/json
 // @Param X-Recaptcha-V2-Token header string true "reCAPTCHA v2 token"
 // @Param X-Recaptcha-V3-Token header string true "reCAPTCHA v3 token"
-// @Success 204 {object} struct{} "No Content"
+// @Success 204
 // @Failure 401 {object} ErrorResponse
 // @Router /v1/validate [get]
 func (vh ValidateHandler) Validate(c echo.Context) error {
@@ -40,7 +40,7 @@ func (vh ValidateHandler) Validate(c echo.Context) error {
 // @Accept  json
 // @Produce application/json
 // @Param X-Recaptcha-V2-Token header string true "reCAPTCHA v2 token"
-// @Success 204 {object} struct{} "No Content"
+// @Success 204
 // @Failure 401 {object} ErrorResponse
 // @Router /v2/validate [get]
 func (vh ValidateHandler) ValidateV2(c echo.Context) error {
@@ -53,7 +53,7 @@ func (vh ValidateHandler) ValidateV2(c echo.Context) error {
 // @Accept  json
 // @Produce application/json
 // @Param X-Recaptcha-V3-Token header string true "reCAPTCHA v3 token"
-// @Success 204 {object} struct{} "No Content"
+// @Success 204
 // @Failure 401 {object} ErrorResponse
 // @Router /v3/validate [get]
 func (vh ValidateHandler) ValidateV3(c echo.Context) error {
